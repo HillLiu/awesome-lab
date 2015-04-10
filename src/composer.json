@@ -1,0 +1,5 @@
+{
+    "require-dev": {
+        "pmvc-plugin/file-list": "0.1.1"
+    }
+}
