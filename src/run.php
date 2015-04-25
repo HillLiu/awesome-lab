@@ -7,14 +7,11 @@
  * ./convmv.php --path=/yourpath --notest
  */
 include_once('/home/sys/web/lib/pmvc/include_plug.php');
-include("class.cmd.php");
 
 PMVC\setPlugInFolder('vendor/pmvc-plugin/');
+$params = PMVC\plug('cmd')->commands($argv);
 
-$cmd = new cmd();
-$params = $cmd->arguments($argv);
-
-$mypath = $params['commands']['path'];
+$mypath = $params['path'];
 if(is_dir($mypath)){
     $path = $mypath;
 }else{
@@ -23,7 +20,7 @@ if(is_dir($mypath)){
     $pattern = $mypath['basename'];
 }
 
-$test = !$params['commands']['notest'];
+$test = !$params['notest'];
 if($test){
     echo "Run in Test Mode\n";
 }
