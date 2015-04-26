@@ -6,7 +6,7 @@
  * #for run
  * ./convmv.php --path=/yourpath --notest
  */
-include_once('/home/sys/web/lib/pmvc/include_plug.php');
+include_once('vendor/pmvc/pmvc/include_plug.php');
 
 PMVC\setPlugInFolder('vendor/pmvc-plugin/');
 $params = PMVC\plug('cmd')->commands($argv);

@@ -1,6 +1,7 @@
 {
     "require-dev": {
         "pmvc-plugin/file-list": "0.1.1",
-        "pmvc-plugin/cmd": "0.1"
+        "pmvc-plugin/cmd": "0.1",
+        "pmvc/pmvc": "0.1"
     }
 }
