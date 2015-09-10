@@ -20,24 +20,23 @@ if(is_dir($mypath)){
     $pattern = $mypath['basename'];
 }
 
-$test = !$params['notest'];
-if($test){
-    echo "Run in Test Mode\n";
-}
 if( empty($path) || !realpath($path) )
 {
-    exit();
+    exit('No path found'."\n");
 }
 if(empty($pattern)){
     $pattern='*';
 }
 echo "Run in ".$path."\n";
 echo "File pattern: ".$pattern."\n";
-$from = 'big-5';
-$to = 'utf-8';
 $files = PMVC\plug('file_list',array('hash'=>true))->ls($path,$pattern);
-
-foreach ($files as $f) {
-    var_dump($f);
+ksort($files);
+foreach ($files as $k=>$f) {
+    $hash = $f['hash'] ?: '';
+    if ($hash) {
+        $hash = ','.$hash;
+    }
+    $file_path = str_replace($path,'',$f['wholePath']);
+    echo $file_path.$hash."\n";
 }
 
