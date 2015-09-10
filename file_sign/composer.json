@@ -1,7 +1,19 @@
 {
+    "name": "awesome-lab/file_sign",
+    "description": "sign you files",
+    "type": "library",
+    "keywords": ["sign"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hill",
+            "email": "hill@kimo.com"
+        }
+    ],
     "require-dev": {
         "pmvc-plugin/file_list": "*",
         "pmvc-plugin/cmd": "*",
         "pmvc/pmvc": "*"
-    }
+    },
+    "minimum-stability": "dev"
 }
