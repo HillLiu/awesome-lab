@@ -1,7 +1,9 @@
 {
     "require-dev": {
         "pmvc-plugin/file_list": "*",
-        "pmvc-plugin/cmd": "*",
+        "pmvc-plugin/cli": "*",
+        "pmvc-plugin/debug": "*",
+        "pmvc-plugin/debug_cli": "*",
         "pmvc/pmvc": "*"
     }
 }

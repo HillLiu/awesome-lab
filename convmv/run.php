@@ -6,26 +6,27 @@
  * #for run
  * ./convmv.php --path=/yourpath --notest
  */
-include_once('vendor/pmvc/pmvc/include_plug.php');
+include_once('vendor/autoload.php');
+\PMVC\Load::plug(['debug'=>['output'=>'debug_cli']]);
 
-PMVC\setPlugInFolder('vendor/pmvc-plugin/');
-$params = PMVC\plug('cmd')->commands($argv);
+$params = PMVC\plug('cli')->getopt();
 
-$mypath = $params['path'];
+$mypath = \PMVC\get($params, 'path');
 if(is_dir($mypath)){
     $path = $mypath;
 }else{
     $mypath = pathinfo($mypath);
-    $path = $mypath['dirname'];
-    $pattern = $mypath['basename'];
+    $path = \PMVC\get($mypath, 'dirname');
+    $pattern = \PMVC\get($mypath, 'basename');
 }
 
-$test = !$params['notest'];
+$test = !\PMVC\get($params, 'notest');
 if($test){
     echo "Run in Test Mode\n";
 }
 if( empty($path) || !realpath($path) )
 {
+    trigger_error("not defined path", E_USER_ERROR);
     exit();
 }
 if(empty($pattern)){
@@ -35,7 +36,7 @@ echo "Run in ".$path."\n";
 echo "File pattern: ".$pattern."\n";
 $from = 'big-5';
 $to = 'utf-8';
-$files = PMVC\plug('file-list')->ls($path,$pattern);
+$files = PMVC\plug('file_list')->ls($path,$pattern);
 $detect_encodes = array( 
     'ASCII',
     'big-5',
@@ -43,29 +44,22 @@ $detect_encodes = array(
     'GB2312'
 );
 
-function EndWithSlash($str)
-{
-    $str1 = str_replace('\\','/',$str);
-    if (substr($str1,strlen($str1)-1,1) != "/")
-        $str = $str.'/';
-    return $str;
-}
-
-$changes = array();
-foreach($files as &$i){
+$changes = [];
+foreach($files as $i){
     $i['encode']=mb_detect_encoding($i['name'],$detect_encodes);
+    \PMVC\d([$i['encode'], $i['name']]);
     if('BIG-5'!=$i['encode']){
         continue;
     }
-    $changes[]=&$i;
     $i['newname']=mb_convert_encoding($i['name'], $to, $from);
+    $changes[]=$i;
     if(!$test){
         $dir=dirname($i['wholePath']);
-        $new_path = EndWithSlash($dir).$i['newname'];
+        $new_path = \PMVC\lastSlash($dir).$i['newname'];
         if(realpath($i['wholePath'])){
             rename($i['wholePath'],$new_path);
         }
     }
 }
-print_r($changes);
+\PMVC\d(['Changes'=>$changes]);
 ?>
